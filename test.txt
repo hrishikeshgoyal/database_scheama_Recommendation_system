@@ -1,0 +1,17 @@
+archive
+brokenlinks
+cur
+image
+imagelinks
+ipblocks
+links
+math
+old
+oldimage
+random
+recentchanges
+searchindex
+site_stats
+user_newtalk
+users1
+watchlist

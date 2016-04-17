@@ -1,15 +1,12 @@
- <!DOCTYPE HTML>
  <html>
 
  <head>
- <title>Database Scheama Recommendation</title>
   <style>
     .Legend div{
     margin-left:15px;
     width:16px;
     border:1px solid #808080;
     display:inline-block;
-    background-color:   black;
 }
 .ie7 .Legend div{
     display:inline;
@@ -21,11 +18,11 @@
 .Orange {background-color:orange;}
 
 .dropdown {
-    position: absolute;
-    left: 500px;
-     top : 1500px;
-    background-color: green;
-   width: 400px;
+    position: fixed;
+    left: 1000px;
+     top : 100px;
+     background: transparent;
+   width: 268px;
    padding: 5px;
    font-size: 16px;
    line-height: 1;
@@ -35,8 +32,6 @@
    -webkit-appearance: none;
 }
 .myButton {
-  position: absolute;
-  left: 120px;
   background-color:blue;
   -moz-border-radius:28px;
   -webkit-border-radius:28px;
@@ -55,9 +50,7 @@
   background-color:#5cbf2a;
 }
 .styled-select select {
-    position: absolute;
-    top: 500;
-   background-color: white;
+   background: transparent;
    width: 268px;
    padding: 5px;
    font-size: 16px;
@@ -67,17 +60,6 @@
    height: 34px;
    -webkit-appearance: none;
    }
-
-  .header {
-    position: absolute;
-    left: 400px;
-  }
-
-   .header2 {
-    position: absolute;
-    left: 100px;
-  }
-  
 </style>
   
 
@@ -180,7 +162,7 @@ $attributesretyped=$_POST["name9"];
 $x1 = $_POST["name1"]/ $tablecount *10;
 // add in cookie
 $_SESSION["x1"] = $x1;
-//echo "x1=".$_SESSION["x1"].'<br />';
+echo "x1=".$_SESSION["x1"].'<br />';
 
 $x2 = $_POST["name2"]/ $tablecount * 10;
 $_SESSION["x2"] = $x2;
@@ -209,8 +191,8 @@ $i=0;
 $simple_sum=  $weight_array[0] + $x1*$weight_array[1] + $x2*$weight_array[2] +  $x3*$weight_array[3] +  $x4*$weight_array[4];
 
 $_SESSION["simple_sum"] = $simple_sum;
-//echo 'simple sum in session '.$_SESSION['simple_sum'].'<br />  ';
-//echo $simple_sum;
+echo 'simple sum in session '.$_SESSION['simple_sum'].'<br />  ';
+echo $simple_sum;
 
 
 
@@ -218,11 +200,11 @@ $_SESSION["simple_sum"] = $simple_sum;
 //--------------------------------------DONE-----------------------------------------------------------------------
 //1.2  COMPLEX CHANGES $splitattrcount 
 
-$cx1 = $tablecount/10;
-$cx2 = $splittableattrcount/10;
-$cx3 = $splittableattrpercentage/100;
-$cx4 = $splitattrpercentage*$attributeCount/$tablecount/1000;
-$cx5 = $splitattrpercentage*$splitattrcount/1000 ; 
+$cx1 = $tablecount;
+$cx2 = $splittableattrcount;
+$cx3 = $splittableattrpercentage;
+$cx4 = $splitattrpercentage*$attributeCount/$tablecount;
+$cx5 = $splitattrpercentage*$plitattrcount ; 
 
 
 
@@ -288,11 +270,11 @@ $RenameAttWt = 15000/($tablecount*$attributeCount);
 
 // ----------------------CALCULATING OF WEIGHTS IS DONE ---------------------------------
 $Refinement = $x1*$weight_array[1];
-//echo "dgds";
-//echo $Refinement;
-//echo "refinment over";
+echo "dgds";
+echo $Refinement;
+echo "refinment over";
 $Removal =  $x2*$weight_array[2];
-//echo $Removal;
+echo $Removal;
 $Reinp = $x3*$weight_array[3] +  $x4*$weight_array[4];
 $SimpleSum =$simple_sum;
 $ComplexSum=$complex_sum;
@@ -310,11 +292,11 @@ $JoinTable = 400/$tablecount +0.67*($jointabcount1 + $jointabcount2) ;
 $Rename = $RenameTabWt*$_POST["name8"] + $RenameAttWt*$_POST["name9"];
 $ComplexSum = $Split +$JoinTable+$Rename;
 */
-//echo 'testtttttttttttt';
-//echo 'simple sum= '. $SimpleSum;
-//echo '     complex sum= '.$complex_sum.'done2'.$Split;
+echo 'testtttttttttttt';
+echo 'simple sum= '. $SimpleSum;
+echo '     complex sum= '.$complex_sum.'done2'.$Split;
 $ratio = $SimpleSum/($SimpleSum+$ComplexSum)*100;
-$ratio2= 100- $ratio;
+$ratio2=100- $ratio;
 
 $sratio1 = ($Refinement/$SimpleSum)*100 ;
 $sratio2 = ($Removal/$SimpleSum) * 100 ;
@@ -326,127 +308,44 @@ $cratio1= ($Split/$ComplexSum)*100;
 $cratio2= ($JoinTable/$ComplexSum)*100;
 $cratio3= ($Rename/$ComplexSum)*100;
 
-//echo 'cratios  ----- '.$complexSum.'  done';
+echo 'cratios  ----- '.$complexSum.'  done';
 
-//echo 'testttttttttt35435ttt';
+echo 'testttttttttt35435ttt';
+ ?>
 
-?>
 
+<script type="text/javascript" src="/assets/script/canvasjs.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
-
-  var chart1 = new CanvasJS.Chart("chartContainer",
+  var chart = new CanvasJS.Chart("chartContainer",
   {
     title:{
-      text: "Simple changes and complex changes",
+      text: "Gaming Consoles Sold in 2012"
     },
-                animationEnabled: true,
-    legend:{
-      verticalAlign: "center",
-      horizontalAlign: "left",
-      fontSize: 20,
-      fontFamily: "Helvetica" ,
-       
-
-
+    legend: {
+      maxWidth: 350,
+      itemWidth: 120
     },
-    theme: "theme3",
     data: [
-    {        
-      type: "pie",       
-      indexLabelFontFamily: "Garamond",       
-      indexLabelFontSize: 20,
-      indexLabel: "{label} {y}%",
-      startAngle:-20,
-
+    {
+      type: "pie",
       showInLegend: true,
-      toolTipContent:"{legendText} {y}%",
+      legendText: "{indexLabel}",
       dataPoints: [
-        {  y: <?php echo $ratio; ?>, legendText:"Simple", label: "Simple" },
-        {  y: <?php echo $ratio2; ?>, legendText:"Complex", label: "Complex" },
-        
+        { y: 4181563, indexLabel: "PlayStation 3" },
+        { y: 2175498, indexLabel: "Wii" },
+        { y: 3125844, indexLabel: "Xbox 360" },
+        { y: 1176121, indexLabel: "Nintendo DS"},
+        { y: 1727161, indexLabel: "PSP" },
+        { y: 4303364, indexLabel: "Nintendo 3DS"},
+        { y: 1717786, indexLabel: "PS Vita"}
       ]
     }
     ]
   });
-  chart1.render();
-
-
-  var chart2 = new CanvasJS.Chart("chartContainer2",
-  {
-    title:{
-      text: "Simple changes"
-    },
-                animationEnabled: true,
-    legend:{
-      verticalAlign: "center",
-      horizontalAlign: "left",
-      fontSize: 20,
-      fontFamily: "Helvetica"        
-    },
-    theme: "theme3",
-    data: [
-    {        
-      type: "pie",       
-      indexLabelFontFamily: "Garamond",       
-      indexLabelFontSize: 20,
-      indexLabel: "{label} {y}%",
-      startAngle:-20,      
-      showInLegend: true,
-      toolTipContent:"{legendText} {y}%",
-      dataPoints: [
-        {  y: <?php echo $sratio1; ?>, legendText:"Refinement", label: "Refinement" },
-        {  y: <?php echo $sratio2; ?>, legendText:"Removal", label: "Removal" },
-        {  y: <?php echo $sratio3; ?>, legendText:"Reinterpretation", label: "Reinterpretation" },
-        
-      ]
-    }
-    ]
-  });
-  chart2.render();
-
-
-  var chart3 = new CanvasJS.Chart("chartContainer3",
-  {
-    title:{
-      text: "Complex changes"
-    },
-                animationEnabled: true,
-    legend:{
-      verticalAlign: "center",
-      horizontalAlign: "left",
-      fontSize: 20,
-      fontFamily: "Helvetica"        
-    },
-    theme: "theme3",
-    data: [
-    {        
-      type: "pie",       
-      indexLabelFontFamily: "Garamond",       
-      indexLabelFontSize: 20,
-      indexLabel: "{label} {y}%",
-      startAngle:-20,      
-      showInLegend: true,
-      toolTipContent:"{legendText} {y}%",
-      dataPoints: [
-        {  y: <?php echo $cratio1; ?>, legendText:"Split", label: "Split" },
-        {  y: <?php echo $cratio2; ?>, legendText:"Join", label: "Join" },
-        {  y: <?php echo $cratio3; ?>, legendText:"Rename", label: "Rename" },
-        
-      ]
-    }
-    ]
-  });
-  chart3.render();
-
-
-
+  chart.render();
 }
 </script>
-<script type="text/javascript" src="canvasjs.min.js"></script>
-
-
-
 
 
 
@@ -522,17 +421,10 @@ window.onload = function () {
  </script>
  -->
 
-
-
-
 </head>
 
 
-<body bgcolor="#F0FFF0">
-
-
-
-
+<body>
 
 
 <!-- <div id="piechart" style="width: 900px; height: 500px;"></div> 
@@ -561,18 +453,12 @@ window.onload = function () {
    Rename
 </div>
 -->
-<div id= "chartContainer" style="height: 300px; width: 100%; " ></div>
-<br /><br /><br /><br /> <br /><br /><br /><br />
-<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
-<br /><br /><br /><br /> <br /><br /><br /><br />
-<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
-<br /><br /><br /><br /> <br /><br /><br /><br />
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 
-<h1 class="header"> Help Us To Improve the system!</h1>
+
 <form action="database.php" method ='post' class = "dropdown">
-  <h2 class="header2">Enter your feedback</h2>
-   <br /> <br />
-   <br /> <br />
+  <h2> Enter your feedback rating </h2>
+   
  <h2 class = "styled-select">Ratings
    
 <select  name ="ratings" id = "ratings">
@@ -589,8 +475,8 @@ window.onload = function () {
 </select>
  
 </h2>
-
-<input type = 'submit' class="myButton" />
+ 
+<input onclick="location.href = 'database.php';" type = 'submit' class="myButton" />
  
 
 

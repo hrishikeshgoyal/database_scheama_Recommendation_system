@@ -1,0 +1,57 @@
+<?php
+
+session_start();
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+$dbname = "weights";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+$conn2 = new mysqli($servername, $username, $password, 'mediawiki');
+if ($conn2->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT value FROM simple";
+$result = $conn->query($sql);
+
+/*echo "hrishikesh\r\n";
+echo $result->num_rows;
+echo "hrishikesh\r\n";
+*/
+function learn ($array) {
+	
+
+}
+
+$index=1;
+/*
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    
+        learn($row[value]);
+        $temp= $row[value];
+        
+        $update= "UPDATE simple SET value=".$temp." WHERE serial =".$index++;
+        echo $update;
+        $conn->query($update);
+       
+        echo $row[value];
+    }
+} else {
+    echo "0 results";
+}
+*/
+
+echo $_SESSION["x1"];
+$conn->close();
+?> 
