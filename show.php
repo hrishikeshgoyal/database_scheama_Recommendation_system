@@ -17,7 +17,7 @@ echo "<div style = 'position: absolute;
 echo '<h2>Select a Datbase </h2>';
 
 $db_list = mysql_list_dbs($link);
-echo "<form method='POST' action='show2.php'>";
+echo "<form method='POST' action='show222.php'>";
 echo "<select name='db'>";
 $i = 0;
 $cnt = mysql_num_rows($db_list);

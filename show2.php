@@ -17,95 +17,14 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <link rel="stylesheet" href="css/jmenu.css" type="text/css" />
   <script type="text/javascript" src="js/jMenu.jquery.js"></script>
+  <script type="text/javascript" src="canvasjs.min.js"></script>
   
-  
-  
-  <script>
-  $(document).ready(function() {
-  $("#jMenu").jMenu({
-                    openClick : false,
-                    ulWidth :'auto',
-                     TimeBeforeOpening : 100,
-                    TimeBeforeClosing : 11,
-                    animatedText : true,
-                    paddingLeft: 1,
-                    effects : {
-                        effectSpeedOpen : 150,
-                        effectSpeedClose : 150,
-                        effectTypeOpen : 'slide',
-                        effectTypeClose : 'slide',
-                        effectOpen : 'swing',
-                        effectClose : 'swing'
-                    }
-
-     });
-  $( "#tabs" ).tabs({
-      beforeLoad: function( event, ui ) {
-        ui.jqXHR.error(function() {
-          ui.panel.html(
-            "Couldn't load this tab. We'll try to fix this as soon as possible. " +
-            "If this wouldn't be a demo." );
-        });
-      }
-    });
-    $( "#accordion" ).accordion({
-    heightStyle: "content",
-    collapsible: true
-    });
-  
-  
-  });
- 
-  function fun(x){
-  var xmlhttp=new XMLHttpRequest();
-  xmlhttp.onreadystatechange=function(){
-    if (xmlhttp.readyState==4 && xmlhttp.status==200){
-      document.getElementById("tabs-1").innerHTML=xmlhttp.responseText;
-    }
-  }
-  xmlhttp.open("GET","data.php?table="+x,true);
-  xmlhttp.send();
-  fun2(x);
-  //document.getElementById("tabs-1").innerHTML=x;
-  }
-  
-  function fun2(x){
-  var xmlhttp=new XMLHttpRequest();
-  xmlhttp.onreadystatechange=function(){
-    if (xmlhttp.readyState==4 && xmlhttp.status==200){
-      document.getElementById("tabs-2").innerHTML=xmlhttp.responseText;
-    }
-  }
-  xmlhttp.open("GET","data2.php?table="+x,true);
-  xmlhttp.send();
-  
-  }
-  
-  </script>
-</head>
-
-<body>
 
 
- <ul id="jMenu">
-           <li>
-                <a>Menu</a>
-                <ul>
-                    <li>
-                        <a href="show3.php">P(int) chart</a>
-                     </li>   
-                    <li>
-                        <a href="show4.php">P(tb) chart</a>
-                     </li>
-            <li>
-                        <a href="show5.php">Prediction chart</a>
-                     </li>
-           <li>
-                        <a href="cyto/sample.php">Table relationship graph</a>
-                     </li>
-                </ul>
-            </li>
-  </ul>
+
+
+
+
 
 <?php
 
@@ -159,13 +78,51 @@ echo "<form class = 'relative' method='POST' action='data3.php'>
     left: 150px;
     top: 150px;' class = 'tabble'>
 <tr>
- <td> No of Tables to add </td> <td> <input type='text' name='name1'></td>
+ <td> Name of  Table to be added  </td> <td> <input type='text' name='name1'></td>
  </tr>
  <tr>
-<td> No of Tables to delete </td> <td><input type='text' name='name2'></td></tr>
+   <td> Name of the Attribute </td> 
+   <td> <input type='text' id='attname'></td> 
+   <td> <select name='atttype' id ='atttype'>
+      <option value='Varchar'>Varchar</option>
+      <option value='INteger'>Interger</option>
+      <option value='Float'>float</option>
+      <option value='Double'>Double</option>
+      <option value='String'>String</option>
+
+ </select>
+  </td>
+  <td> <select name='atttrefype' id ='atttrefype'>
+      <option value='Normal'>Normal</option>
+      <option value='Primary'>Primary</option>
+       
+
+
+      </select>
+  </td>
+  <td>
+      <button type='button' onclick = 'attributeAdd()'>Add Attribute </button> 
+  </td>
+ </tr>";
+ /* 
  <tr>
- <td>No of Tables whose keys are modified </td><td> <input type='text' name='name3'></td></tr>
-  <tr>
+  <td> Name of Tables to delete </td>"; 
+  
+      $sql1 = "SHOW TABLES FROM ".$_POST["db"];
+      $result9 = mysql_query($sql1);
+      echo " <td> <select name = 'splittable' id ='splittable'>";
+      $cnt = mysql_num_rows($result9);
+      $i=0;
+      while ($i < $cnt) {
+          $row5=mysql_fetch_row($result9);
+          echo "<option value='".$row5[0]."'>".$row5[0]."</option>";
+          $i++;
+      }
+
+      echo "</select> </td>
+</tr>
+ 
+<tr>
   <td>Split selected table </td> ";
 $sql1 = "SHOW TABLES FROM ".$_POST["db"];
 $result9 = mysql_query($sql1);
@@ -236,8 +193,11 @@ echo "</select> </td>";
  <tr> <td> No of attributes to be retyped </td> <td> <input type='text' name='name9'> </td> </tr>
  <tr> <td> No of attributes whose default valuse is changed </td> <td> <input type='text' name='name10'> </td> </tr>
 <tr> <td> <input type='submit' style =' float : centre'  value='Submit'> </td> </tr>
-</table>
+*/
+"</table>
 </form>";
+
+   
 
 
 
@@ -259,11 +219,148 @@ echo "<div id='tabs'>".
   "</div>".
 "</div>";
     */
+
+
+
+
 mysql_close($link);
 
 
+
+
+
 ?>
-<br/>
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script>
+  $(document).ready(function() {
+  $("#jMenu").jMenu({
+                    openClick : false,
+                    ulWidth :'auto',
+                     TimeBeforeOpening : 100,
+                    TimeBeforeClosing : 11,
+                    animatedText : true,
+                    paddingLeft: 1,
+                    effects : {
+                        effectSpeedOpen : 150,
+                        effectSpeedClose : 150,
+                        effectTypeOpen : 'slide',
+                        effectTypeClose : 'slide',
+                        effectOpen : 'swing',
+                        effectClose : 'swing'
+                    }
+
+     });
+  $( "#tabs" ).tabs({
+      beforeLoad: function( event, ui ) {
+        ui.jqXHR.error(function() {
+          ui.panel.html(
+            "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+            "If this wouldn't be a demo." );
+        });
+      }
+    });
+    $( "#accordion" ).accordion({
+    heightStyle: "content",
+    collapsible: true
+    });
+  
+  
+  });
+ 
+  function fun(x){
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function(){
+    if (xmlhttp.readyState==4 && xmlhttp.status==200){
+      document.getElementById("tabs-1").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("GET","data.php?table="+x,true);
+  xmlhttp.send();
+  fun2(x);
+  //document.getElementById("tabs-1").innerHTML=x;
+  }
+  
+  function fun2(x){
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function(){
+    if (xmlhttp.readyState==4 && xmlhttp.status==200){
+      document.getElementById("tabs-2").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("GET","data2.php?table="+x,true);
+  xmlhttp.send();
+  
+  }
+  function attributeAdd(){
+  
+
+      var e1 = document.getElementById("atttype");
+      var strUser1 = e1.options[e1.selectedIndex].value;
+
+      /*document.writeln(strUser1);*/
+
+      var e2 = document.getElementById("atttrefype");
+      var strUser2 = e2.options[e2.selectedIndex].value;
+      /*document.writeln(strUser2);*/
+
+  }
+
+
+
+ function show_graph() {
+
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+              animationEnabled: true,
+              title:{
+                text: "Chart with Labels on X Axis"
+              },
+              data: [
+              {
+                type: "column", //change type to bar, line, area, pie, etc
+                dataPoints: [
+                  { label: "banana", y: 18 },
+                  { label: "orange", y: 29 },
+                  { label: "apple",  y: 40 },                                    
+                  { label: "mango",  y: 34 },
+                  { label: "grape",  y: 24 }
+                ]
+              }
+              ]
+              });
+
+            chart.render();
+}
+
+
+  
+</script>
+</head>
+
+<body>
+
+<button type='button' onclick = 'show_graph()'>Add Attribute </button> 
+
+
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+<form action="http://localhost/database_scheama_Recommendation_system/show3.php">
+    <input type="submit" value="Next">
+</form>
 
 </body>
  
