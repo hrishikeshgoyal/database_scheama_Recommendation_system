@@ -30,7 +30,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 
-$dbname = "mediawiki";
+$dbname = $_SESSION['db'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -65,7 +65,7 @@ echo "hrishikesh\r\n";
         <br /> <br />
         <br /> <br />';
         
-        $update="SHOW TABLES FROM mediawiki";
+        $update="SHOW TABLES FROM ".$dbname;
         $result = $conn->query($update);
         $cnt = $result->num_rows;
         //echo $cnt;

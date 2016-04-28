@@ -33,7 +33,8 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 
-$dbname = "mediawiki";
+//$dbname = "mediawiki";
+$dbname = $_SESSION['db'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

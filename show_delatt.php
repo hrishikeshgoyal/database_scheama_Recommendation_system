@@ -48,7 +48,8 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 
-$dbname = "mediawiki";
+//$dbname = "mediawiki";
+$dbname = $_SESSION['db'];
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -101,7 +102,7 @@ echo "</div>";
 $allatts=array();
 
 //mysql_select_db("mediawiki");
-$sql = "SHOW TABLES FROM mediawiki";//".$_SESSION["db"];
+$sql = "SHOW TABLES FROM ".$_SESSION["db"];
 $result=10;
 $result = $conn->query($sql);
 
@@ -172,9 +173,11 @@ $conn->close();
 
 
 
-    var imp1=10,  imp2= 1,
-    imp3 = 100/count,
-    imp4=90,imp5=10;
+    var imp1=10;
+    var imp2= 10 ; 
+     var imp3 = Math.floor(100/count);
+     var imp4=90;
+     var imp5=10;
     
 
     
