@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript">
+window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer",
+	{
+		title:{
+			text: "Gaming Consoles Sold in 2012"
+		},
+		legend: {
+			maxWidth: 350,
+			itemWidth: 120
+		},
+		data: [
+		{
+			type: "pie",
+			showInLegend: true,
+			legendText: "{indexLabel}",
+			dataPoints: [
+				{ y: 4181563, indexLabel: "PlayStation 3" },
+				{ y: 2175498, indexLabel: "Wii" },
+				{ y: 3125844, indexLabel: "Xbox 360" },
+				{ y: 1176121, indexLabel: "Nintendo DS"},
+				{ y: 1727161, indexLabel: "PSP" },
+				{ y: 4303364, indexLabel: "Nintendo 3DS"},
+				{ y: 1717786, indexLabel: "PS Vita"}
+			]
+		}
+		]
+	});
+	chart.render();
+}
+</script>
+<script type="text/javascript" src="/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+</body>
+</html>
+
+
+
+<html>
+
+<head>  
+<script type="text/javascript">
+window.onload = function () {
+	var chart = new CanvasJS.Chart("chartContainer",
+	{
+		title:{
+			text: "Desktop Search Engine Market Share, Dec-2012"
+		},
+                animationEnabled: true,
+		legend:{
+			verticalAlign: "center",
+			horizontalAlign: "left",
+			fontSize: 20,
+			fontFamily: "Helvetica"        
+		},
+		theme: "theme2",
+		data: [
+		{        
+			type: "pie",       
+			indexLabelFontFamily: "Garamond",       
+			indexLabelFontSize: 20,
+			indexLabel: "{label} {y}%",
+			startAngle:-20,      
+			showInLegend: true,
+			toolTipContent:"{legendText} {y}%",
+			dataPoints: [
+				{  y: 83.24, legendText:"Google", label: "Google" },
+				{  y: 8.16, legendText:"Yahoo!", label: "Yahoo!" },
+				{  y: 4.67, legendText:"Bing", label: "Bing" },
+				{  y: 1.67, legendText:"Baidu" , label: "Baidu"},       
+				{  y: 0.98, legendText:"Others" , label: "Others"}
+			]
+		}
+		]
+	});
+	chart.render();
+}
+</script>
+<script type="text/javascript" src="canvasjs.min.js"></script> 
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+</body>
+
+
+</html>

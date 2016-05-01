@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="../../scripts/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="../../jqwidgets/jqxcore.js"></script>
+  <script type="text/javascript" src="../../jqwidgets/jqxchart.js"></script>	
+  <script type="text/javascript" src="../../jqwidgets/jqxdata.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  #accordion-resizer {
+    padding: 10px;
+    width: 150px;
+    height: 220px;
+  }
+  </style>
+  <script>
+  $(function() {
+	$( "#tabs" ).tabs({
+      beforeLoad: function( event, ui ) {
+        ui.jqXHR.error(function() {
+          ui.panel.html(
+            "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+            "If this wouldn't be a demo." );
+        });
+      }
+    });
+    $( "#accordion" ).accordion({
+	  heightStyle: "content"
+    });
+	
+  });
+  function fun(x){
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById("tabs-1").innerHTML=xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","data.php?table="+x,true);
+	xmlhttp.send();
+	fun2(x);
+	//document.getElementById("tabs-1").innerHTML=x;
+  }
+  
+  function fun2(x){
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById("tabs-2").innerHTML=xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","data2.php?table="+x,true);
+	xmlhttp.send();
+  
+  }
+  
+  </script>
+</head>
+
+<body>
+<?php
+
+$expire=time()+60*60;
+setcookie("uname", $_POST["uname"], $expire);
+setcookie("pword", $_POST["pword"], $expire);
+setcookie("db", $_POST["db"], $expire);
+
+
+echo "<div id='accordion'>";
+
+$link = mysql_connect('localhost', $_POST["uname"], $_POST["pword"]);
+
+$sql = "SHOW TABLES FROM ".$_POST["db"];
+$result = mysql_query($sql);
+
+mysql_select_db($_POST["db"]);
+while ($row = mysql_fetch_row($result)) {
+	
+	$result2 = mysql_query("SHOW COLUMNS FROM ".$row[0]);
+
+    echo "<h3 onClick=\"fun('".$row[0]."')\">".$row[0]."</h3><div>";
+    
+  
+	if (mysql_num_rows($result2) > 0) {
+		while ($row2 = mysql_fetch_assoc($result2)) {
+			echo($row2["Field"]."<br/>");
+		}
+	}
+	
+	
+	echo "</div>";
+}
+
+echo "</div>";
+echo "<br/><br/>";
+
+echo "<div id='tabs'>".
+  "<ul>".
+    "<li><a href='#tabs-1'>Table Properties</a></li>".
+    "<li><a href='#tabs-2'>Probabilities</a></li>".
+    "<li><a href='#tabs-3'>Alterations</a></li>".
+  "</ul>".
+  "<div id='tabs-1'>".
+    "<p></p>".
+  "</div>".
+  "<div id='tabs-2'>".
+    "<p></p>".
+  "</div>".
+  "<div id='tabs-3'>".
+    "<p></p>".
+  "</div>".
+"</div>";
+
+mysql_close($link);
+
+
+?>
+</body>
+</html>
